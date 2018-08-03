@@ -12,6 +12,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -33,6 +34,7 @@ public class Deathbox extends Application {
     private ImageView stop;
     private Rectangle table;
     
+    
     private  double startX = 350;
     private  double startY = 80;
     private final double initial = 350;       
@@ -40,14 +42,13 @@ public class Deathbox extends Application {
     public Pane root = new Pane();
     
     private ImageView card1;
-    private int test = 0;
     private double sX =0;
     private DoubleProperty coodXReal = new SimpleDoubleProperty(0);
     private Game game;
     
     @Override
     public void start(Stage primaryStage) {
-        test = 24;
+        
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         cardtable = new ImageView(new Image(Deathbox.class.getResourceAsStream("images/cardtable.jpg")));
         table = new Rectangle(1400, 800);
@@ -68,6 +69,21 @@ public class Deathbox extends Application {
     
     
     private void placeCards(){
+        ImageView deck = new ImageView(new Image(Deathbox.class.getResourceAsStream("images/playing-card-back.jpg")));
+        deck.setFitWidth(165);
+        deck.setFitHeight(200);
+        deck.setPreserveRatio(true);
+        deck.setX(1150);
+        deck.setY(300);
+        
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(10.0);
+        dropShadow.setOffsetY(10.0);
+        deck.setEffect(dropShadow);
+        
+        root.getChildren().add(deck);
+        
+        
         game = new Game();
         game.buildGame();
         
