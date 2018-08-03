@@ -40,14 +40,14 @@ public class Deathbox extends Application {
     public Pane root = new Pane();
     
     private ImageView card1;
-    
+    private int test = 0;
     private double sX =0;
     private DoubleProperty coodXReal = new SimpleDoubleProperty(0);
     private Game game;
     
     @Override
     public void start(Stage primaryStage) {
-
+        test = 24;
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         cardtable = new ImageView(new Image(Deathbox.class.getResourceAsStream("images/cardtable.jpg")));
         table = new Rectangle(1400, 800);
