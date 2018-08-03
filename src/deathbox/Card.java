@@ -1,9 +1,11 @@
 package deathbox;
 
 import javafx.event.EventHandler;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class Card extends ImageView{
 	
@@ -279,17 +281,44 @@ public class Card extends ImageView{
     }
     
     
+    /*
+    Adds effects to the card.
+    */
     public void addCardEffects(Card card){
         card.setFitWidth(FITWIDTH);
         card.setFitHeight(FITHEIGHT);
         card.setPreserveRatio(true);
         
-//        card.setOnMouseEntered(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                
-//            }
-//        });
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setOffsetX(10.0);
+        dropShadow.setOffsetY(10.0);
+        card.setEffect(dropShadow);
+        
+        card.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                int depth = 70;
+ 
+                DropShadow borderGlow = new DropShadow();
+                borderGlow.setOffsetY(10.0);
+                borderGlow.setOffsetX(10.0);
+                borderGlow.setColor(Color.YELLOW);
+                borderGlow.setWidth(depth);
+                borderGlow.setHeight(depth);
+                
+                card.setEffect(borderGlow);
+            } 
+        });
+        
+        card.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                DropShadow dropShadow = new DropShadow();
+                dropShadow.setOffsetX(10.0);
+                dropShadow.setOffsetY(10.0);
+                card.setEffect(dropShadow);
+            }
+        });
     }
 
     //************************* Accessor Methods ********************************/
