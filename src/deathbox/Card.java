@@ -1,5 +1,6 @@
 package deathbox;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -284,7 +285,7 @@ public class Card extends ImageView{
     /*
     Adds effects to the card.
     */
-    public void addCardEffects(Card card){
+    private void addCardEffects(Card card){
         card.setFitWidth(FITWIDTH);
         card.setFitHeight(FITHEIGHT);
         card.setPreserveRatio(true);
@@ -298,7 +299,7 @@ public class Card extends ImageView{
             @Override
             public void handle(MouseEvent event) {
                 int depth = 70;
- 
+                
                 DropShadow borderGlow = new DropShadow();
                 borderGlow.setOffsetY(10.0);
                 borderGlow.setOffsetX(10.0);
@@ -313,12 +314,12 @@ public class Card extends ImageView{
         card.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                DropShadow dropShadow = new DropShadow();
-                dropShadow.setOffsetX(10.0);
-                dropShadow.setOffsetY(10.0);
                 card.setEffect(dropShadow);
             }
         });
+        
+        
+        
     }
 
     //************************* Accessor Methods ********************************/

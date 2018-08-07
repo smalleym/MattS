@@ -39,12 +39,25 @@ public class Game{
     }
     
     
+//    public void pluckACard(LinkedList<Card>[][] board, Deck deck){
+//        for(int i = 0; i<board.length; i++){
+//            for(int j = 0; j<board.length; j++){
+//                if(board.)
+//            }
+//        }
+//    }
+    
+    
     //*************************** Accessor Methods *************************************
     
     public LinkedList<Card>[][] getGame(){
         return display;
     }
     
+    
+    public Deck grabDeck(){
+        return deck;
+    }
     
     //************************************************************************************
     
