@@ -1,6 +1,9 @@
 package deathbox;
 
 import java.util.*;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 
 /*
@@ -90,6 +93,7 @@ public class Deck {
         public Card pluck(){
             return gameDeck.pop();
         }
+       
 	
 	//**************************** Accessor Method ********************************
 	

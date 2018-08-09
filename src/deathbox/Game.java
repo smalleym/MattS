@@ -1,7 +1,7 @@
 package deathbox;
 
 import java.util.LinkedList;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -9,12 +9,14 @@ import javafx.stage.Stage;
  */
 public class Game{
     
-    private LinkedList<Card> [][] display;
-    private Deck deck;
+    private static LinkedList<Card> [][] display;
+    private static Deck deck;
+    
     /*
     Constructor
     */
     public Game(){
+        
         display = new LinkedList[3][3];
         for(int i = 0; i < display.length; i++){
             for(int j = 0; j < display.length; j++){
@@ -39,23 +41,27 @@ public class Game{
     }
     
     
-//    public void pluckACard(LinkedList<Card>[][] board, Deck deck){
-//        for(int i = 0; i<board.length; i++){
-//            for(int j = 0; j<board.length; j++){
-//                if(board.)
-//            }
-//        }
-//    }
-    
+    public static void pluckACard(Card c){
+        for(int i = 0; i<display.length; i++){
+            for(int j = 0; j<display.length; j++){
+                if(display[i][j].peek().cardWasPressed() == true){
+                    display[i][j].push(c);
+                    //System.out.println(display[i][j].peek().getValue());
+                }
+            }
+        }
+        
+    }
+ 
     
     //*************************** Accessor Methods *************************************
     
-    public LinkedList<Card>[][] getGame(){
+    public static LinkedList<Card>[][] getGame(){
         return display;
     }
     
     
-    public Deck grabDeck(){
+    public static Deck grabDeck(){
         return deck;
     }
     
@@ -63,8 +69,8 @@ public class Game{
     
     
     public static void main(String[] args){
-        Game g = new Game();
-        g.buildGame();
+        //Game g = new Game();
+        //g.buildGame();
         //g.start(Stage primaryStage); 
     }
 }
