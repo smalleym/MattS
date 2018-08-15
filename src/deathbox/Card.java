@@ -539,6 +539,13 @@ public class Card extends ImageView {
                 Deathbox.root.getChildren().remove(high);
                 Deathbox.root.getChildren().remove(low);
                 choice = "low";
+                
+                if(c1.getRank() < Game.getPile().get(1).getRank()){
+                    System.out.println("Correct");
+                    
+                }else{
+                    System.out.println("Wrong");
+                }
             }
         });
         
