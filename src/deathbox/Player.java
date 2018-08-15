@@ -13,6 +13,7 @@ public class Player {
     
     private int turnsLeft;
     private String playerName;
+    private int totalSecs = 0;
     
     
     public Player(String playerName){

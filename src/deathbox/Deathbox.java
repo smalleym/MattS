@@ -6,15 +6,16 @@
 package deathbox;
 
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,11 +31,12 @@ public class Deathbox extends Application {
     private ImageView deck;
     private Rectangle table;
     
-    public  static double startX = 350;
-    public  static double startY = 80;
+    public  static double startX = 300;
+    public  static double startY = 40;
     public  static double onTop = 0;
-    public static final double initial = 350;   
+    public static final double initial = 300;   
     private boolean gameOver = false;
+    
     
     public static Pane root = new Pane();
     private Game game;
@@ -69,7 +71,7 @@ public class Deathbox extends Application {
             incrementY();
         }
     }
-    
+        
     /*
     Places initial cards on Table.
     */
@@ -120,17 +122,18 @@ public class Deathbox extends Application {
             }
         });
     }
-
-    
+   
     
     
     public static void incrementX(){
-        startX += 250;
+        startX += 300;
     }
     
     public static void incrementY(){
         startY += 250;
     }
+    
+
     
 //    private void setDrag() {
 //        cardtable.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -170,6 +173,7 @@ public class Deathbox extends Application {
         
         
         placeCards();
+        //Deathbox.highOrLow();
         //rootSize = root.getChildren().size();
         //setClickAction();
         

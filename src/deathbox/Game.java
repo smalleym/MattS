@@ -11,6 +11,7 @@ public class Game{
     
     private static LinkedList<Card> [][] display;
     private static Deck deck;
+    private static LinkedList<Card> temp = new LinkedList<Card>();
     
     /*
     Constructor
@@ -49,8 +50,21 @@ public class Game{
                     //System.out.println(display[i][j].peek().getValue());
                 }
             }
-        }
+        }  
+    }
+    
+    
+    public static LinkedList<Card> getPile(){
         
+        for (int i = 0; i < display.length; i++) {
+            for (int j = 0; j < display.length; j++) {
+                if (display[i][j].peek().cardWasPressed() == true) {
+                    //System.out.println("Made it");
+                    temp = display[i][j];
+                }
+            }
+        }
+        return temp;
     }
  
     
