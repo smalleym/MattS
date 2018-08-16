@@ -5,27 +5,29 @@
  */
 package deathbox;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 /**
  *
  * @author smalleym
  */
 public class Deathbox extends Application {
-    //final AtomicReference<boolean> c = new AtomicReference<Card>(false);
     private ImageView cardtable;
     private ImageView stop;
     private ImageView deck;
@@ -33,58 +35,46 @@ public class Deathbox extends Application {
     
     public  static double startX = 300;
     public  static double startY = 40;
+    public  static double cardStartX = 1150;
+    public  static double cardStartY = 300;
     public  static double onTop = 0;
     public static final double initial = 300;   
     private boolean gameOver = false;
+    private static Card temp;
+    private static TranslateTransition transition;
     
     
     public static Pane root = new Pane();
     private Game game;
-    private int rootSize;
     
-    
-    public static Pane getRoot(){
-        return root;
-    }
-
-     /*
-    Places initial cards on Table.
-    */
-    private void updatePlaceCards(){
-        for(int i = 0; i< Game.getGame().length; i++){
-            
-            for(int j = 0; j<Game.getGame().length; j++){
-                
-                for (int k = 0; k < Game.getGame()[i][j].size(); k++) {
-
-                    Card temp = (Card) Game.getGame()[i][j].get(k);
-                    temp.setXVal(startX + onTop);
-                    temp.setYVal(startY + onTop);
-                    root.getChildren().add(temp);
-                    onTop+=5;
-                    onTop+=5;
-                }
-                onTop = 0;
-                incrementX();
-            }
-            startX = initial;
-            incrementY();
-        }
-    }
-        
     /*
     Places initial cards on Table.
     */
     private void placeCards(){
+        //Card temp;
+        
         for(int i = 0; i< Game.getGame().length; i++){
             
             for(int j = 0; j<Game.getGame().length; j++){
                 
-                Card temp = (Card)Game.getGame()[i][j].peek();
-                temp.setXVal(startX);
-                temp.setYVal(startY);
+                temp = (Card)Game.getGame()[i][j].peek();
+                temp.setXVal(cardStartX);
+                temp.setYVal(cardStartY);
+                
+                Timeline timeline = new Timeline();
+
+                KeyFrame end = new KeyFrame(Duration.seconds(1),
+                        new KeyValue(temp.xProperty(), startX),
+                        new KeyValue(temp.yProperty(), startY));
+
+                timeline.getKeyFrames().add(end);
+
+
+                timeline.play();
                 root.getChildren().add(temp);
                 incrementX();
+                
+//               
             }
             startX = initial;
             incrementY();
@@ -99,15 +89,13 @@ public class Deathbox extends Application {
         deck.setFitWidth(165);
         deck.setFitHeight(200);
         deck.setPreserveRatio(true);
-        deck.setX(1150);
-        deck.setY(300);
+        deck.setX(cardStartX);
+        deck.setY(cardStartY);
         
         DropShadow dropShadow = new DropShadow();
         dropShadow.setOffsetX(10.0);
         dropShadow.setOffsetY(10.0);
         deck.setEffect(dropShadow);
-        
-        
         
         stop = new ImageView(new Image(Deathbox.class.getResourceAsStream("images/close.png")));
         stop.setFitHeight(25);
@@ -124,6 +112,8 @@ public class Deathbox extends Application {
     }
    
     
+   //******************************** Accessor Methods ******************************************
+    
     
     public static void incrementX(){
         startX += 300;
@@ -132,28 +122,14 @@ public class Deathbox extends Application {
     public static void incrementY(){
         startY += 250;
     }
+  
     
-
+     public static Pane getRoot(){
+        return root;
+    }
     
-//    private void setDrag() {
-//        cardtable.setOnMousePressed(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent t) {
-//                sX = t.getSceneX() - coodXReal.getValue();
-//            }
-//        });
-//        
-//        cardtable.setOnMouseDragged(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent t) {
-//                coodXReal.setValue(t.getSceneX() - sX);
-//            }
-//        });
-//        
-//        cardtable.xProperty().bind(coodXReal);
-//    }
-    
-    
+ //**********************************************************************************************
+   
     @Override
     public void start(Stage primaryStage) {
         
@@ -166,46 +142,29 @@ public class Deathbox extends Application {
         table.setArcHeight(20);
         table.setArcWidth(20);
         
-        //setDrag();
         cardtable.setClip(table);
+        root.getChildren().addAll(cardtable);
+        
+        
+        
+        
         setQuit();
-        root.getChildren().addAll(cardtable, stop, deck);
-        
-        
+        root.getChildren().addAll(stop, deck);
         placeCards();
-        //Deathbox.highOrLow();
-        //rootSize = root.getChildren().size();
-        //setClickAction();
-        
-        //root.getChildren()
         
         Scene scene = new Scene(root, 1400, 800); 
         scene.setFill(null);
         primaryStage.setScene(scene);
         primaryStage.show();
-        
-        
-        //while(gameOver == false){
-          //  updateGame();
-        //}
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//        }
+       
     }
 
-    
-    
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
-        
-        //while(gameOver == false){
-            
-        //}
     }
     
 }

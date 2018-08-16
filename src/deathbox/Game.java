@@ -59,12 +59,26 @@ public class Game{
         for (int i = 0; i < display.length; i++) {
             for (int j = 0; j < display.length; j++) {
                 if (display[i][j].peek().cardWasPressed() == true) {
-                    //System.out.println("Made it");
+                    System.out.print(display[i][j].get(0).getValue() + " ");
                     temp = display[i][j];
+                    display[i][j].peek().setIfPressed(false);
                 }
             }
         }
+        //System.out.println();
         return temp;
+    }
+    
+    public static void unMark(Card c){
+        for (int i = 0; i < display.length; i++) {
+            for (int j = 0; j < display.length; j++) {
+                if(!display[i][j].get(0).getValue().equals(c.getValue())){
+                    display[i][j].peek().setIfPressed(false);
+                    Deathbox.root.getChildren().remove(Card.low);
+                    Deathbox.root.getChildren().remove(Card.high);
+                }
+            }
+        }
     }
  
     
