@@ -143,7 +143,7 @@ public class Deathbox extends Application {
         table.setArcWidth(20);
         
         cardtable.setClip(table);
-        root.getChildren().addAll(cardtable);
+        root.getChildren().add(cardtable);
         
         
         

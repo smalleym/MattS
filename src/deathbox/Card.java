@@ -2,6 +2,8 @@ package deathbox;
 
 //import static deathbox.Deathbox.root;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -12,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -26,16 +27,19 @@ public class Card extends ImageView {
     private final double FITHEIGHT = 200;
     private final double FITWIDTH = 165;
     private int rank;
-    private boolean isPressed = false;
-    private boolean isEntered = false;
+    private boolean isPressed;
+    private static boolean isEntered = false;
     public static boolean picked = false;
     private LinkedList<Card> list = new LinkedList<Card>();
     private LinkedList<Card> temp = new LinkedList<Card>();
     public static ImageView high = new ImageView(new Image(Deathbox.class.getResourceAsStream("images/up_arrow.png")));
     public static ImageView low = new ImageView(new Image(Deathbox.class.getResourceAsStream("images/down_arrow.png")));
+    private static Text text = new Text();
+    private static Integer secs;
 
     public Card(String value) {
         this.value = value;
+        isPressed = false;
 
         switch (value) {
             case "2C":
@@ -367,22 +371,16 @@ public class Card extends ImageView {
         dropShadow.setOffsetX(10.0);
         dropShadow.setOffsetY(10.0);
         card.setEffect(dropShadow);
-        
-//        rect.setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
-//            @Override
-//            public void handle(MouseDragEvent event) {
-//               Deathbox.root.getChildren().remove(low);
-//               Deathbox.root.getChildren().remove(high);
-//            }
-//        });
 
         card.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            Text text = new Text();
-
+            
+            
+            
             @Override
             public void handle(MouseEvent event) {
                 int depth = 70;
-
+                isEntered = true;
+                
                 DropShadow borderGlow = new DropShadow();
                 borderGlow.setOffsetY(5.0);
                 borderGlow.setOffsetX(5.0);
@@ -391,6 +389,18 @@ public class Card extends ImageView {
                 borderGlow.setHeight(depth);
 
                 card.setEffect(borderGlow);
+                
+                Integer pileSize = Game.getPile2().size();
+                //System.out.println(pileSize);
+                
+                text.setText(pileSize.toString());
+                text.setFont(Font.font("Verdana", 30));
+                text.setFill(Color.GRAY);
+                text.setOpacity(1.0);
+                text.setEffect(borderGlow);
+                text.setX(card.getX() - 30);
+                text.setY(card.getY() + 40);
+                //Deathbox.root.getChildren().add(text);
             }
         });
 
@@ -398,6 +408,7 @@ public class Card extends ImageView {
             @Override
             public void handle(MouseEvent event) {
                 card.setEffect(dropShadow);
+                Deathbox.root.getChildren().remove(text);
                 isEntered = false;
                 
             }
@@ -406,7 +417,7 @@ public class Card extends ImageView {
         card.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                isPressed = true;
+                card.setIfPressed(true); 
                 Game.unMark(card);
                 highOrLow(card);
                 
@@ -480,10 +491,9 @@ public class Card extends ImageView {
 
             @Override
             public void handle(MouseEvent event) {
-                picked = true;
                 c1 = Game.grabDeck().pluck();
                 c1.setIfPressed(true);
-                Game.pluckACard(c1);
+                //Game.pluckACard(c1);
 
                 c1.setXVal(Deathbox.cardStartX);
                 c1.setYVal(Deathbox.cardStartY);
@@ -501,10 +511,12 @@ public class Card extends ImageView {
                 Deathbox.root.getChildren().add(c1);
 
                 wasPressed();
+                Game.pluckACard(c1);
                 Deathbox.root.getChildren().remove(high);
                 Deathbox.root.getChildren().remove(low);
-                LinkedList<Card> pile = Game.getPile();
+                LinkedList<Card> pile = Game.getPile(c1);
 
+                System.out.println(pile.get(1).getValue());
                 timeline.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -578,6 +590,52 @@ public class Card extends ImageView {
                             fadeOut.play();
 
                             drink.setDisable(true);
+                            secs = pile.size();
+                            
+//                            while(secs >= 0){
+//                                System.out.println(secs);
+//                                try{
+//                                    Thread.sleep(1000);
+//                                }catch (InterruptedException e){
+//                                    
+//                                }
+//                                secs--;
+//                            }
+                            
+                            
+//                            Timeline t1 = new Timeline();
+//                            
+//                            int delay = 1000;
+//                            int period = 1000;
+//                            Timer timer = new Timer();
+//                            //interval = Integer.parseInt(secs);
+//                            //System.out.println(secs);
+//                            timer.scheduleAtFixedRate(new TimerTask() {
+//                                Text t;
+//                                public void run() {
+//                                    
+//                                    if(t != null){
+//                                        Deathbox.root.getChildren().remove(t);
+//                                    }
+//                                    t = new Text(secs.toString());
+//                                    t.setFont(Font.font("Verdana", 100));
+//                                    t.setFill(Color.WHITE);
+//                                    t.setEffect(borderGlow);
+//                                    t.setX(1150);
+//                                    t.setY(150);
+//                                    t.setVisible(true);
+//                                    System.out.println(secs);
+//                                    
+//                                    if (secs == 1) {
+//                                        timer.cancel();
+//                                    }else{
+//                                         secs--;
+//                                    }
+//                                    
+//                                    Deathbox.root.getChildren().add(t);                      
+//                                }
+//                                
+//                            }, delay, period);
                         }
                     }
                 });
@@ -614,7 +672,7 @@ public class Card extends ImageView {
                 wasPressed();
                 Deathbox.root.getChildren().remove(high);
                 Deathbox.root.getChildren().remove(low);
-                LinkedList<Card> pile = Game.getPile();
+                LinkedList<Card> pile = Game.getPile(c1);
 
                 timeline.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
@@ -740,6 +798,10 @@ public class Card extends ImageView {
 
     public void setIfPressed(boolean value) {
         isPressed = value;
+    }
+    
+    public void setIfEntered(boolean value){
+        isEntered = value;
     }
 
     public boolean cardWasEntered() {

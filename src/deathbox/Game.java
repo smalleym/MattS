@@ -45,7 +45,7 @@ public class Game{
     public static void pluckACard(Card c){
         for(int i = 0; i<display.length; i++){
             for(int j = 0; j<display.length; j++){
-                if(display[i][j].peek().cardWasPressed() == true){
+                if(display[i][j].get(0).cardWasPressed() == true){
                     display[i][j].push(c);
                     //System.out.println(display[i][j].peek().getValue());
                 }
@@ -54,18 +54,32 @@ public class Game{
     }
     
     
-    public static LinkedList<Card> getPile(){
-        
+    public static LinkedList<Card> getPile(Card c){
         for (int i = 0; i < display.length; i++) {
+            
             for (int j = 0; j < display.length; j++) {
+               
                 if (display[i][j].peek().cardWasPressed() == true) {
-                    System.out.print(display[i][j].get(0).getValue() + " ");
                     temp = display[i][j];
-                    display[i][j].peek().setIfPressed(false);
                 }
             }
         }
-        //System.out.println();
+        return temp;
+        
+    }
+    
+    public static LinkedList<Card> getPile2(){
+        
+        for (int i = 0; i < display.length; i++) {
+            
+            for (int j = 0; j < display.length; j++) {
+                
+                if (display[i][j].peek().cardWasEntered() == true) {
+                    temp = display[i][j];
+                    display[i][j].peek().setIfEntered(false);
+                }
+            }
+        }
         return temp;
     }
     
@@ -73,7 +87,9 @@ public class Game{
         for (int i = 0; i < display.length; i++) {
             for (int j = 0; j < display.length; j++) {
                 if(!display[i][j].get(0).getValue().equals(c.getValue())){
+                  
                     display[i][j].peek().setIfPressed(false);
+
                     Deathbox.root.getChildren().remove(Card.low);
                     Deathbox.root.getChildren().remove(Card.high);
                 }
